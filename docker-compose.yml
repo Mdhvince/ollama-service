@@ -1,15 +1,14 @@
-
 services:
   ollama:
     image: ollama/ollama
     ports:
-      - "${OLLAMA_HOST_PORT:-11434}:8000"  # Map external port (variable/11434) to internal 8000
+      - "${OLLAMA_HOST_PORT:-11434}:11434"
     volumes:
       - ollama_data:/root/.ollama
     environment:
-      - OLLAMA_HOST=0.0.0.0:8000  # Ollama serves on port 8000 inside container
+      - OLLAMA_HOST=0.0.0.0:11434
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/version"]  # Check internal port 8000
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/version"]
       interval: 30s
       timeout: 10s
       retries: 3
